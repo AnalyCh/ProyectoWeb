@@ -41,4 +41,10 @@ export class AppController {
     ){
         res.render('menu')
     }
+
+}
+
+export interface Cancion {
+    id?: number;
+    nombre: string
 }

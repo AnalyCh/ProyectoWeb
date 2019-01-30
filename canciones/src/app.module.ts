@@ -4,6 +4,11 @@ import { AppService } from './app.service';
 import {UsuarioModule} from "./usuario/usuario.module";
 import {UsuarioEntity} from "./usuario/usuario.entity";
 import {TypeOrmModule} from '@nestjs/typeorm';
+import {DescripcionGeneroEntity} from "./descripcion-genero/descripcion-genero.entity";
+import {GeneroEntity} from "./genero/genero.entity";
+import {CancionEntity} from "./cancion/cancion.entity";
+import {DiscoEntity} from "./disco/disco-entity";
+import {CancionModule} from "./cancion/cancion.module";
 
 @Module({
   imports: [
@@ -12,16 +17,23 @@ import {TypeOrmModule} from '@nestjs/typeorm';
               type: 'mysql',
               host: 'localhost',
               port: 32769 ,
-              database: 'canciones',
-              username: 'andres',
-              password: '123456',
+              database: 'web',
+              username: 'root',
+              password: 'root',
               synchronize: true,
-              dropSchema: false,
+              dropSchema: true,
               entities: [
-                  UsuarioEntity
+                  UsuarioEntity,
+                  DescripcionGeneroEntity,
+                  GeneroEntity,
+                  CancionEntity,
+                  DiscoEntity,
               ]
           }
-      ),UsuarioModule],
+      ),
+      UsuarioModule,
+      CancionModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
