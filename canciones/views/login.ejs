@@ -1,16 +1,38 @@
-<h1>Login</h1>
-<p>Ingresa tus credenciales</p>
+<link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
 
-<form action="/login"
-      method = "post"
->
-    <div>
-        <label for="username">Usuario</label>
-        <input id="username" type="text" name="username">
+<div class = "container">
+    <% const existeMensaje = typeof mensaje !== "undefined" %>
+
+    <% if(existeMensaje){ %>
+        <div class="<%= clase %>" role="alert">
+            <span class="font-weight-bold">
+                MENSAJE
+            </span> : <%= mensaje %>
+        </div>
+    <% } %>
+
+
+    <div class = "row">
+        <div  align="center" class="col-sm-12 centrar">
+            <h1>Login</h1>
+            <p>Ingresa tus credenciales</p>
+
+            <form action="/login"
+                  method = "post"
+            >
+                <div>
+                    <label for="usuario">Usuario</label>
+                    <input id="usuario" type="text" name="usuario">
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password">
+                </div>
+                <button>Login</button>
+            </form>
+        </div>
+
     </div>
-    <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" name="password">
-    </div>
-    <button>Login</button>
-</form>
+
+
+</div>

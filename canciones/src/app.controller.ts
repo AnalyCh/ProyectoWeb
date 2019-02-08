@@ -18,7 +18,7 @@ export class AppController {
     }
 
     @Post('login')
-    @HttpCode(200)
+    //@HttpCode(200)
     async ejecutarLogin(
         @Body('username') username:string,
         @Body('password') password:string,

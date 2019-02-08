@@ -21,7 +21,7 @@ import {CancionModule} from "./cancion/cancion.module";
               username: 'root',
               password: 'root',
               synchronize: true,
-              dropSchema: true,
+              dropSchema: false,
               entities: [
                   UsuarioEntity,
                   DescripcionGeneroEntity,
