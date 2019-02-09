@@ -11,7 +11,7 @@ export class RolEntity{
         name: 'nombre_rol',
         type: 'varchar'
     })
-    nombre: string;
+    nombreRol: string;
 
     @OneToMany(
         type => RolPorUsuarioEntity,

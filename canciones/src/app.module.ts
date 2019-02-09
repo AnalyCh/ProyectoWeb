@@ -15,6 +15,15 @@ import {ArtistaPorBandaEntity} from "./artista-por-banda/artista-por-banda.entit
 import {BandaEntity} from "./banda/banda.entity";
 import {RolEntity} from "./rol/rol.entity";
 import {RolPorUsuarioEntity} from "./rol-por-usuario/rol-por-usuario.entity";
+import { ArtistaModule } from './artista/artista.module';
+import { ArtistaPorBandaModule } from './artista-por-banda/artista-por-banda.module';
+import { AutorModule } from './autor/autor.module';
+import { BandaModule } from './banda/banda.module';
+import { DiscoModule } from './disco/disco.module';
+import { GeneroModule } from './genero/genero.module';
+import { GeneroPorDiscoModule } from './genero-por-disco/genero-por-disco.module';
+import { RolModule } from './rol/rol.module';
+import { RolPorUsuarioModule } from './rol-por-usuario/rol-por-usuario.module';
 
 @Module({
   imports: [
@@ -22,7 +31,7 @@ import {RolPorUsuarioEntity} from "./rol-por-usuario/rol-por-usuario.entity";
           {
               type: 'mysql',
               host: 'localhost',
-              port: 32775 ,
+              port: 32773 ,
               database: 'web',
               username: 'root',
               password: 'root',
@@ -44,7 +53,17 @@ import {RolPorUsuarioEntity} from "./rol-por-usuario/rol-por-usuario.entity";
           }
       ),
       UsuarioModule,
-      CancionModule
+      CancionModule,
+      ArtistaModule,
+      ArtistaPorBandaModule,
+      AutorModule,
+      BandaModule,
+      DiscoModule,
+      GeneroModule,
+      GeneroPorDiscoModule,
+      RolModule,
+      RolPorUsuarioModule,
+      UsuarioModule
   ],
   controllers: [AppController],
   providers: [AppService],

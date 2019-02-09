@@ -8,34 +8,34 @@ import {CreateGeneroPorDiscoDto} from "./dto/create-genero-por-disco.dto";
 export class GeneroPorDiscoService{
     constructor(
         @InjectRepository(GeneroPorDiscoEntity)
-        private readonly generoPorDiscoEntityRepository: Repository<GeneroPorDiscoEntity>
+        private readonly _generoPorDiscoRepository: Repository<GeneroPorDiscoEntity>
     ){}
 
     buscar(parametrosBusqueda?: FindManyOptions<GeneroPorDiscoEntity>):Promise<GeneroPorDiscoEntity[]>{
-        return this.generoPorDiscoEntityRepository.find(parametrosBusqueda)
+        return this._generoPorDiscoRepository.find(parametrosBusqueda)
     }
 
     crear(generoPorDisco: CreateGeneroPorDiscoDto): Promise<GeneroPorDiscoEntity>{
         // @ts-ignore
-        const generoPorDiscoEntity: GeneroPorDiscoEntity = this.generoPorDiscoEntityRepository.create(generoPorDisco);
-        return this.generoPorDiscoEntityRepository.save(generoPorDiscoEntity)
+        const generoPorDiscoEntity: GeneroPorDiscoEntity = this._generoPorDiscoRepository.create(generoPorDisco);
+        return this._generoPorDiscoRepository.save(generoPorDiscoEntity)
     }
     eliminar(idGeneroPorDisco: number): Promise<GeneroPorDiscoEntity>{
-        const generoPorDiscoAEliminar = this.generoPorDiscoEntityRepository.create({idGeneroPorDisco: idGeneroPorDisco});
-        return this.generoPorDiscoEntityRepository.remove(generoPorDiscoAEliminar);
+        const generoPorDiscoAEliminar = this._generoPorDiscoRepository.create({idGeneroPorDisco: idGeneroPorDisco});
+        return this._generoPorDiscoRepository.remove(generoPorDiscoAEliminar);
 
     }
 
     actualizar(nuevoGeneroPorDisco: GeneroPorDiscoEntity): Promise<GeneroPorDiscoEntity>{
-        const generoPorDiscoEntity: GeneroPorDiscoEntity = this.generoPorDiscoEntityRepository.create(nuevoGeneroPorDisco);
-        return this.generoPorDiscoEntityRepository.save(generoPorDiscoEntity);
+        const generoPorDiscoEntity: GeneroPorDiscoEntity = this._generoPorDiscoRepository.create(nuevoGeneroPorDisco);
+        return this._generoPorDiscoRepository.save(generoPorDiscoEntity);
     }
 
     buscarPorId(idGeneroPorDisco: number): Promise<GeneroPorDiscoEntity>{
-        return this.generoPorDiscoEntityRepository.findOne(idGeneroPorDisco);
+        return this._generoPorDiscoRepository.findOne(idGeneroPorDisco);
     }
 
     buscarPorIdSession(idSession: number):Promise<GeneroPorDiscoEntity>{
-        return this.generoPorDiscoEntityRepository.findOne({where: {idUsuario: +idSession}})
+        return this._generoPorDiscoRepository.findOne({where: {idUsuario: +idSession}})
     }
 }

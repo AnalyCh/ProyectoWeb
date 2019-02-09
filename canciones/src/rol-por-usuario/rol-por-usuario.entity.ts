@@ -8,7 +8,7 @@ import {RolEntity} from "../rol/rol.entity";
 export class RolPorUsuarioEntity{
 
     @PrimaryGeneratedColumn()
-    idRolesPorUsuario:number;
+    idRolPorUsuario:number;
 
     @ManyToOne(
         type => UsuarioEntity,
