@@ -1,34 +1,36 @@
 import {Column, Entity, Index, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {GeneroEntity} from "../genero/genero.entity";
 import {CancionEntity} from "../cancion/cancion.entity";
+import {GeneroPorDiscoEntity} from "../genero-por-disco/genero-por-disco.entity";
 
 @Entity('disco')
 export class DiscoEntity {
     @PrimaryGeneratedColumn()
     idDisco: number;
 
-    @Index()
-        @Column({
-            name: 'nombre-Disco'
-        })
+
+    @Column({
+            name: 'nombre-disco',
+            type: 'varchar'
+    })
     nombreDisco: string;
 
-    @Index()
+
     @Column({
-        name: 'anio-Disco'
+        name: 'anio-disco'
     })
-    anioDisco: string;
+    anioDisco: number;
 
     @OneToMany(
-        type => GeneroEntity,
-        genero => genero.disco
+        type => GeneroPorDiscoEntity,
+        generoPorDisco => generoPorDisco.idDisco
     )
-    generos: GeneroEntity[];
+    generoPorDiscos: GeneroPorDiscoEntity[];
 
     @OneToMany(
         type => CancionEntity,
-        cancion => cancion.disco
+        cancion => cancion.idDisco
     )
-    canciones: CancionEntity[]
+    canciones: CancionEntity[];
 
 }

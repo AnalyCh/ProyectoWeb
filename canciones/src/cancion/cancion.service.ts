@@ -3,6 +3,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {CancionEntity} from "./cancion.entity";
 import {FindManyOptions, Repository} from "typeorm";
 import {Cancion} from "../app.controller";
+import {CreateCancionDto} from "./dto/create-cancion.dto";
 
 @Injectable()
 export class CancionService {
@@ -16,7 +17,7 @@ export class CancionService {
         return this._cancionRepository.find(parametrosBusqueda)
     }
 
-    crear(cancion: Cancion): Promise<CancionEntity>{
+    crear(cancion: CreateCancionDto): Promise<CancionEntity>{
         const cancionEntity: CancionEntity = this._cancionRepository
             .create(cancion);
         return this._cancionRepository.save(cancionEntity)
@@ -25,12 +26,12 @@ export class CancionService {
     eliminar(idCancion: number): Promise<CancionEntity>{
         const cancionAEliminar: CancionEntity = this._cancionRepository
             .create({
-                id: idCancion
+                idCancion
             });
         return this._cancionRepository.remove(cancionAEliminar);
     }
 
-    actualizar(nuevaCancion: Cancion): Promise<CancionEntity>{
+    actualizar(nuevaCancion: CreateCancionDto): Promise<CancionEntity>{
         const cancionEntity: CancionEntity = this._cancionRepository
             .create(nuevaCancion);
 

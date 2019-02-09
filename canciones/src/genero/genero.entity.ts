@@ -1,25 +1,23 @@
-import {Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {DescripcionGeneroEntity} from "../descripcion-genero/descripcion-genero.entity";
-import {DiscoEntity} from "../disco/disco-entity";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {DiscoEntity} from "../disco/disco.entity";
+import {GeneroPorDiscoEntity} from "../genero-por-disco/genero-por-disco.entity";
 
 @Entity('genero')
 export class GeneroEntity {
+
     @PrimaryGeneratedColumn()
-    idLista: number;
+    idGenero: number;
+
+    @Column({
+    name: 'nombre-genero',
+        type: 'varchar'
+    })
+    nombreGenero: string;
 
     @OneToMany(
-        type => DescripcionGeneroEntity,
-        descripciongenero => descripciongenero.genero
+        type => GeneroPorDiscoEntity,
+        generoPorDisco => generoPorDisco.idGenero
     )
-    descripciongeneros: DescripcionGeneroEntity[];
-
-    @ManyToOne(
-        type => DiscoEntity,
-        disco => disco.generos
-    )
-    disco: DiscoEntity
-
-
-
+    generoPorDiscos: GeneroPorDiscoEntity[];
 
 }
