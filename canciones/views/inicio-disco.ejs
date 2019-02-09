@@ -1,0 +1,109 @@
+<%- include('header',{titulo:'Gestion de Canciones'}); %>
+
+<div class="container">
+
+    <!--Etiqueta stile lee CSS -->
+    <% const existeMensaje = typeof mensaje!== "undefined"%>
+    <!--   <style>
+           table, th, td{
+               border: 1px solid blue;
+               border-collapse: collapse;
+           }
+       </style>
+       -->
+    <%if(existeMensaje){ %>
+    <div class=" <%=clase%>" role="alert">
+        <span class="font-weight-bold">
+            MENSAJE
+        </span> : <%=mensaje%>
+    </div>
+    <% } %>
+
+    <h1>Gestion de discos</h1>
+    <p>Busque, cree, actualice y elimine discos
+        Puede buscar discos por el nombre o el año</p>
+    <!-- ul Listar cosas sin orden(unordered)    =! ol(ordered) -->
+    <!--li list item -->
+    <% if(booleano){%>
+        <p> Usted creo un disco</p>
+    <% }%>
+    <form method="get" action="/disco/inicio" >
+        <div class="row">
+            <div class="col-sm-9">
+                <label for="busqueda">Busqueda</label>
+                <input id="busqueda" type="text" name="busqueda">
+                <br>
+                <!-- <label for="fecha">Seleccionar fecha</label>
+                <input id="fecha" type="date" name="fecha">
+                -->
+            </div>
+            <div class="col-sm-3">
+                <button class="btn btn-outline-success btn-block">
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-sm-9"></div>
+        <div class="col-sm-3">
+            <a href="/disco/crear-disco" class="quitar-link">
+                <button class="btn btn-outline-success btn-block">
+                    Crear disco
+                </button>
+            </a>
+        </div>
+    </div>
+
+    <h2> lista de discos</h2>
+    <p>Listado de las discos, actualice o elimine canciones</p>
+
+    <br>
+
+    <div class="scroll-tabla">
+        <table class="table table-hover animated slideInLeft">
+            <!-- tr -> table row -->
+            <thead>
+            <tr>
+                <!-- th -> table header -->
+                <th width="30%">Nombre</th>
+                <th width="50%">Anio</th>
+                <th width="20%">Acciones</th>
+            </tr>
+            </thead>
+            <!-- tr -> table row -->
+            <tbody>
+            <% arreglo.forEach( (disco)=> { %>
+                <tr>
+                    <!-- td -> table detail -->
+                    <td><%= disco.nombreCancion %></td>
+                    <td><%= disco.anioCancion %></td>
+                    <td>
+                        <form action="/cancion/eliminar/<%= cancion.idCancion %>" method="POST">
+                            <button class="btn btn-outline-danger btn-block"
+                                    type="submit">
+                                Eliminar
+                            </button>
+                        </form>
+                        <a class="quitar-link"
+                           href="/cancion/actualizar-cancion/<%= cancion.idCancion %>">
+                            <button class="btn btn-outline-info btn-block">
+                                Actualizar
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            <% }) %>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<%- include('librerias.ejs');%>
+<script>
+    //nuestros js
+</script>
+
+<%- include('footer');%>

@@ -51,7 +51,7 @@ export class DiscoController{
         response.render(
                 'inicio-discos',
             {
-            kLikesuario: 'Analy',
+                usuario: 'Analy',
                 arreglo: discos,
                 booleano: false,
                 mensaje: mensaje
