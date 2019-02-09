@@ -16,7 +16,7 @@ import {CancionModule} from "./cancion/cancion.module";
           {
               type: 'mysql',
               host: 'localhost',
-              port: 32769 ,
+              port: 32775 ,
               database: 'web',
               username: 'root',
               password: 'root',

@@ -2,8 +2,9 @@
 
 import {Injectable} from "@nestjs/common";
 import {UsuarioEntity} from "./usuario.entity";
-import {FindOneOptions, Repository} from "typeorm";
+import {FindManyOptions, FindOneOptions, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
+import {Usuario} from "../app.controller";
 
 @Injectable()
 export class UsuarioService{
@@ -15,18 +16,49 @@ export class UsuarioService{
     }
 
     async autenticar(username: string,
-                     password: string ):Promise<boolean>{
-        const consulta: FindOneOptions<UsuarioEntity> = {
-            where:{
-                username: username,
-                password: password
+                     password: string ): Promise<number>{
+        const usuarioEncontrado = await this._usuarioRepository
+            .findOne({
+                where: {
+                    username: username
+                }
+            });
+        if (usuarioEncontrado){
+            if (usuarioEncontrado.password === password){
+                return usuarioEncontrado.id
+            } else {
+                return 0;
             }
-        };
-        const respuesta = await this._usuarioRepository.findOne(consulta);
-        if(respuesta){
-            return true;
-        }else {
-            return false;
+        } else {
+            return 0;
         }
+    }
+
+    buscar(parametrosBusqueda?: FindManyOptions<UsuarioEntity>)
+        : Promise<UsuarioEntity[]> {
+        return this._usuarioRepository.find(parametrosBusqueda)
+    }
+
+    eliminar(idUsuario: number): Promise<UsuarioEntity>{
+        const usuarioAEliminar: UsuarioEntity = this._usuarioRepository
+            .create({
+                id: idUsuario
+            });
+        return this._usuarioRepository.remove(usuarioAEliminar);
+    }
+
+    actualizar(usuario: Usuario): Promise<UsuarioEntity> {
+        const usuarioEntity: UsuarioEntity = this._usuarioRepository.create(usuario);
+        return this._usuarioRepository.save(usuarioEntity);
+    }
+
+    buscarPorId(idUsuario: number): Promise<UsuarioEntity>{
+        return this._usuarioRepository.findOne(idUsuario);
+    }
+    crear(usuario: Usuario): Promise<UsuarioEntity> {
+
+        const usuarioEntity: UsuarioEntity = this._usuarioRepository.create(usuario);
+
+        return this._usuarioRepository.save(usuarioEntity)
     }
 }
