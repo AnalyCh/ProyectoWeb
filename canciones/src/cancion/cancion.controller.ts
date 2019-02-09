@@ -5,6 +5,7 @@ import {FindManyOptions, Like} from "typeorm";
 import {Cancion} from "../app.controller";
 import { CreateCancionDto } from "./dto/create-cancion.dto";
 import {ValidationError, validate, IsNotEmpty, IsNumber} from "class-validator";
+import {ActualizarCancionDto} from "./dto/actualizar-cancion.dto";
 
 @Controller('cancion')
 export class CancionController {
@@ -178,10 +179,11 @@ export class CancionController {
     @Post('actualizar-cancion/:idCancion')
     async actualizrcancionFuncion(
         @Res() response,
-        @Body() cancion:Cancion,
+        @Body() cancion:ActualizarCancionDto,
         @Param('idCancion') idCancion:string
     ){
-        const objetoValidacionArtista = new CreateCancionDto();
+        const objetoValidacionArtista = new ActualizarCancionDto();
+        objetoValidacionArtista.idCancion = Number(cancion.idCancion)
             objetoValidacionArtista.nombreCancion= cancion.nombreCancion;
             objetoValidacionArtista.anioCancion = +cancion.anioCancion;
             
@@ -192,7 +194,7 @@ export class CancionController {
             const mensajeError = errores[0];
 
             const listaError = [];
-            console.log(errores);
+            console.log(errores)
             errores.forEach(
                 (error) => {
                     listaError.push(error.property)

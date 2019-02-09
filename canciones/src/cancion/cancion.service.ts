@@ -4,6 +4,7 @@ import {CancionEntity} from "./cancion.entity";
 import {FindManyOptions, Repository} from "typeorm";
 import {Cancion} from "../app.controller";
 import {CreateCancionDto} from "./dto/create-cancion.dto";
+import {ActualizarCancionDto} from "./dto/actualizar-cancion.dto";
 
 @Injectable()
 export class CancionService {
@@ -31,7 +32,7 @@ export class CancionService {
         return this._cancionRepository.remove(cancionAEliminar);
     }
 
-    actualizar(nuevaCancion: CreateCancionDto): Promise<CancionEntity>{
+    actualizar(nuevaCancion: ActualizarCancionDto): Promise<CancionEntity>{
         const cancionEntity: CancionEntity = this._cancionRepository
             .create(nuevaCancion);
 

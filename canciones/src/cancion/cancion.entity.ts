@@ -23,13 +23,13 @@ export class CancionEntity {
         type => DiscoEntity,
         disco => disco.canciones
     )
-    idDisco: DiscoEntity;
+    idDisco: number;
 
     @ManyToOne(
         type => AutorEntity,
         autor => autor.canciones
     )
-    idAutor: AutorEntity;
+    idAutor: number;
 
 
 }

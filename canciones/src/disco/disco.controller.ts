@@ -3,7 +3,7 @@ import { DiscoService } from "./disco.service";
 import { DiscoEntity } from "./disco.entity";
 import { FindManyOptions, Like } from "typeorm";
 import { CreateDiscoDto } from "./dto/create-disco.dto";
-import { ValidationError, validate } from "class-validator";
+import {ValidationError, validate, IsNotEmpty, IsNumber} from "class-validator";
 
 @Controller('disco')
 export class DiscoController{
@@ -202,4 +202,13 @@ export class DiscoController{
         
     }
 
+
+
+}
+
+
+export interface Disco{
+    idDisco: number,
+    nombreDisco: string,
+    anioDisco: number,
 }
