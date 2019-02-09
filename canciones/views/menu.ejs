@@ -7,6 +7,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <h3 align="left"> Bienvenvenid@ <%= nombre%>  </h3>
     <h1 align="center">Menú Principal</h1>
     <title><%= existeTitulo? titulo : "Gestion Musical"%></title>
 
@@ -28,7 +29,10 @@
         </div>
         <p align="center">Busque, Añada, Elimine, Actualice su biblioteca musical.</p>
         <div align="center">
-            <button class = "espaciado-boton">Canciones</button>
+            <a href="/cancion/inicio">
+                <button class = "espaciado-boton">Canciones</button>
+            </a>
+
         </div>
         <div align="center">
             <button class = "espaciado-boton">Albumes</button>
@@ -36,9 +40,19 @@
         <div align="center">
             <button class = "espaciado-boton">Artistas / Bandas</button>
         </div>
-        <div align="left">
-            <button>Administracion</button>
+        <%if (admin) { %>
+            <div align="left">
+                <a href="/usuario/inicio" >
+                    <button>Administracion</button>
+                </a>
+            </div>
+        <% } %>
+        <div align="right">
+            <a href="/logout">
+                <button>Logout</button>
+            </a>
         </div>
+
 
 </div>
 </body>

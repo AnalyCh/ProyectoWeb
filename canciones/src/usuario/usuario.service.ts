@@ -20,12 +20,12 @@ export class UsuarioService{
         const usuarioEncontrado = await this._usuarioRepository
             .findOne({
                 where: {
-                    username: username
+                    nombreUsuario: username
                 }
             });
         if (usuarioEncontrado){
-            if (usuarioEncontrado.password === password){
-                return usuarioEncontrado.id
+            if (usuarioEncontrado.passwordUsuario === password){
+                return usuarioEncontrado.idUsuario
             } else {
                 return 0;
             }
@@ -42,7 +42,7 @@ export class UsuarioService{
     eliminar(idUsuario: number): Promise<UsuarioEntity>{
         const usuarioAEliminar: UsuarioEntity = this._usuarioRepository
             .create({
-                id: idUsuario
+                idUsuario: idUsuario
             });
         return this._usuarioRepository.remove(usuarioAEliminar);
     }
@@ -53,7 +53,7 @@ export class UsuarioService{
     }
 
     buscarPorId(idUsuario: number): Promise<UsuarioEntity>{
-        return this._usuarioRepository.findOne(idUsuario);
+        return this._usuarioRepository.findOne(idUsuario,{relations:["roles"]});
     }
     crear(usuario: Usuario): Promise<UsuarioEntity> {
 

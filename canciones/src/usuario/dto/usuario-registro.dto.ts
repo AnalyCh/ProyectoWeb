@@ -9,11 +9,6 @@ export class UsuarioRegistroDto {
     @Length(3,20)
     nombre:string;
 
-    @IsNotEmpty()
-    @IsString()
-    @Length(15,30)
-    @IsEmail()
-    correo:string;
 
     @IsNotEmpty()
     @IsString()

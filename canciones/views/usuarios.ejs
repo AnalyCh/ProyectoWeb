@@ -1,0 +1,101 @@
+<%- include('header',{titulo:'Usuarios'});%>
+
+<% const existeMensaje = typeof mensaje !== "undefined" %>
+
+<% if(existeMensaje){ %>
+    <div class="<%= clase %>" role="alert">
+            <span class="font-weight-bold">
+                MENSAJE
+            </span> : <%= mensaje %>
+    </div>
+<% } %>
+
+<div class ="container">
+
+
+
+    <form method="get" action="/usuario/inicio">
+        <div class="row">
+            <div class="col-sm-9">
+
+                <div class="form-group">
+
+                    <label for="busqueda">Busqueda</label>
+
+                    <input id="busqueda"
+                           type="text"
+                           name="busqueda"
+                           class="form-control">
+                </div>
+
+            </div>
+            <div class="col-sm-3">
+
+                <button
+                        class="btn btn-outline-success btn-block espaciado-busqueda">
+
+                    Buscar
+
+                </button>
+        </div>
+    </form>
+</div>
+<div class="row">
+    <div class="col-sm-9">
+
+    </div>
+    <div class="col-sm-3">
+        <a href="/menu"
+           class="quitar-link">
+
+            <button class="btn btn-outline-danger btn-block">
+
+                Regresar
+            </button>
+        </a>
+    </div>
+</div>
+
+
+    <table class="table table-hover animated slideInLeft">
+        <thead>
+        <tr>
+            <!-- th -> table header -->
+            <th width="25%">Nombre</th>
+            <th width="25%">Accion</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <% arreglo.forEach( (usuario)=> { %>
+            <tr>
+                <!-- td -> table detail -->
+                <td><%= usuario.nombreUsuario %></td>
+                <td>
+                    <form action="/usuario/eliminar/<%= usuario.idUsuario %>" method="POST">
+                        <!--<button type="button"> clickea sin problemas</button>
+                        <button>Yo tambien envio informacion</button>
+                        -->
+                        <button class="btn btn-outline-danger btn-block espaciado-boton"
+                                type="submit">
+                            Eliminar
+                        </button>
+                    </form>
+                    <a href="/usuario/actualizar-usuario/<%= usuario.idUsuario %>"
+                       class="quitar-link">
+                        <button
+                                class="btn btn-outline-info btn-block espaciado-boton">
+                            Actualizar
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        <% }) %>
+        </tbody>
+
+
+    </table>
+
+
+
+</div>

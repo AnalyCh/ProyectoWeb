@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+
+<div class = "container" align="center">
+    <% const existeMensaje = typeof mensaje !== "undefined" %>
+
+    <% if(existeMensaje){ %>
+        <div class="<%= clase %>" role="alert">
+            <span class="font-weight-bold">
+                MENSAJE
+            </span> : <%= mensaje %>
+        </div>
+    <% } %>
+
+
+    <div  class="row">
+        <div  class="col-sm-6 centrar">
+            <h1>Registro</h1>
+            <p>Ingresa tus Datos</p>
+            <form action="/usuario/crear" method="post">
+                <div>
+                    <label for="nombreUsuario">Nombre</label>
+                    <input id="nombreUsuario" type="text" name="nombreUsuario">
+                </div>
+                <div>
+                    <label for="passwordUsuario">Password</label>
+                    <input id="passwordUsuario" type="password" name="passwordUsuario">
+                </div>
+                <button>Registrarse</button>
+            </form>
+        </div>
+    </div>
+</div>

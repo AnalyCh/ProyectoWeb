@@ -1,8 +1,9 @@
-import {Body, Controller, Get, HttpCode, Post, Res, Session} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, Post, Query, Res, Session} from '@nestjs/common';
 import { AppService } from './app.service';
 import {UsuarioService} from "./usuario/usuario.service";
 import {UsuarioLoginDto} from "./usuario/dto/usuario-login.dto";
 import {validate, ValidationError} from "class-validator";
+import {RolEntity} from "./rol/rol.entity";
 
 @Controller()
 export class AppController {
@@ -14,22 +15,24 @@ export class AppController {
 
     @Get('login')
     mostrarLogin(
-        @Res() res
+        @Res() res,
     ){
-        res.render('login')
+
+        res.render('login');
     }
 
     @Post('login')
     @HttpCode(200)
     async ejecutarLogin(
+        @Res() res,
         @Body('username') username:string,
         @Body('password') password:string,
-        @Session() sesion,
-        @Res() res
+        @Session() sesion
+
     ){
 
         const usuarioValidado = new UsuarioLoginDto();
-        usuarioValidado.username = username;
+        usuarioValidado.nombre = username;
         usuarioValidado.password = password;
         const errores: ValidationError[] = await validate(usuarioValidado);
 
@@ -45,29 +48,36 @@ export class AppController {
             const usuario = await this._usuarioService
                 .buscarPorId(respuesta);
 
+            console.log(usuario)
 
             if (usuario !== undefined) {
 
-                //res.send(sesion)
-                if (usuario.tipo === "usuario") {
-                    const parametroConsulta = `?idUsuario=${usuario.id}`
-                    res.redirect('menu')
-                } else if (sesion.usuario.esAdministrador) {
-                    res.redirect('usuario/inicio')
-                } else {
-                    const clase = 'alert alert-danger';
-                    res.render('menu',
-                        {
-                            mensaje: 'No tiene los accesos necesarios',
-                            clase: clase
-                        })
+                sesion.usuario ={
+                    id: usuario.idUsuario,
+                    nombre: usuario.nombreUsuario,
+                    esUsuario: usuario.roles.some((rol) => {
+                        return rol.nombre === 'usuario';
+                    }),
+                    esAdministrador: usuario.roles.some((rol) => {
+                        return rol.nombre === 'administrador';
+                    })
+
+
                 }
+                console.log(sesion);
+                const admin = sesion.usuario.esAdministrador;
+                const nombre =  sesion.usuario.nombre;
+                res .render('menu',
+                    {
+                        admin: admin,
+                        nombre:nombre
+                    });
 
             } else {
                 const clase = 'alert alert-danger';
                 res.render('login',
                     {
-                        mensaje: 'No existe ususario',
+                        mensaje: 'Error de Validacion',
                         clase: clase
                     });
             }
@@ -76,9 +86,49 @@ export class AppController {
 
     @Get('menu') // url
     mostrarMenu(
-        @Res() res
+        @Res() res,
+        @Session() sesion
     ){
-        res.render('menu')
+        const admin =sesion.usuario.esAdministrador;
+        const nombre = sesion.usuario.nombre;
+        res.render('menu',
+            {
+                admin: admin,
+                nombre: nombre
+            })
+    }
+
+    @Get('logout')
+    async logout(
+        @Res() res,
+        @Session() sesion
+    ){
+        sesion.usuario = undefined,
+            sesion.destroy()
+        res.redirect('login')
+    }
+
+    @Get('registro')
+    async mostrarRegistro(
+        @Res() response,
+        @Session() sesion,
+        @Query('errores') errores:string
+
+    ){
+        if(errores) {
+            const clase = 'alert alert-danger';
+            response.render('registro',
+                {
+                    mensaje: "Errores de validacion",
+                    clase: clase
+                })
+        }else {
+            sesion.usuario = undefined
+            sesion.destroy()
+            response.render('registro');
+        }
+
+
     }
 
 }
@@ -89,6 +139,7 @@ export interface Cancion {
 }
 export interface Usuario {
     id?: number;
-    nombre: string;
-    tipo: string
+    nombreUsuario: string;
+    passwordUsuario: string;
+    roles: RolEntity[]
 }
