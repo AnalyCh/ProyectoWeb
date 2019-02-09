@@ -3,6 +3,7 @@ import {CancionService} from "./cancion.service";
 import {CancionEntity} from "./cancion.entity";
 import {FindManyOptions, Like} from "typeorm";
 import {Cancion} from "../app.controller";
+import { CreateCancionDto } from "./dto/create-cancion.dto";
 
 @Controller('cancion')
 export class CancionController {
@@ -70,7 +71,7 @@ export class CancionController {
 
         await this._cancionService.eliminar(Number(idCancion));
         const parametrosConsulta = `?accion=borrar&titulo=${
-            cancion.nombre
+            cancion.nombreCancion
             }`;
         response.redirect('cancion/inicio'+ parametrosConsulta)
     }
@@ -85,10 +86,10 @@ export class CancionController {
     @Post('crear-cancion')
     crearcancionFuncion(
         @Res() response,
-        @Body() cancion:Cancion
+        @Body() cancion:CreateCancionDto
     ){
         const respuesta = this._cancionService.crear(cancion);
-        const parametrosConsulta = `?accion=crear&titulo=${cancion.nombre}`;
+        const parametrosConsulta = `?accion=crear&titulo=${cancion.nombreCancion}`;
 
         response.redirect('cancion/inicio'+ parametrosConsulta)
     }

@@ -1,28 +1,35 @@
 import {Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {DiscoEntity} from "../disco/disco-entity";
+import {DiscoEntity} from "../disco/disco.entity";
+import {AutorEntity} from "../autor/autor.entity";
 
 @Entity('cancion')
 export class CancionEntity {
     @PrimaryGeneratedColumn()
-    id: number;
+    idCancion: number;
 
-    @Index()
+
     @Column({
         name: 'nombre-cancion'
     })
-    nombre: string;
+    nombreCancion: string;
 
-    @Index()
+
     @Column({
         name: 'anio-cancion'
     })
-    anio: string;
+    anioCancion: number;
 
     @ManyToOne(
         type => DiscoEntity,
         disco => disco.canciones
     )
-    disco: DiscoEntity;
+    idDisco: DiscoEntity;
+
+    @ManyToOne(
+        type => AutorEntity,
+        autor => autor.canciones
+    )
+    idAutor: AutorEntity;
 
 
 }
