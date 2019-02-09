@@ -29,7 +29,7 @@ export class AppController {
 
         if(respuesta){
             //res.send('ok');
-            res.redirect('menu')
+            res.redirect('menu');
         }else{
             res.redirect('login');
         }
