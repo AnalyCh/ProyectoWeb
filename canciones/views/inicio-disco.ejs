@@ -77,17 +77,17 @@
             <% arreglo.forEach( (disco)=> { %>
                 <tr>
                     <!-- td -> table detail -->
-                    <td><%= disco.nombreCancion %></td>
-                    <td><%= disco.anioCancion %></td>
+                    <td><%= disco.nombreDisco %></td>
+                    <td><%= disco.anioDisco %></td>
                     <td>
-                        <form action="/cancion/eliminar/<%= cancion.idCancion %>" method="POST">
+                        <form action="/disco/eliminar/<%= disco.idDisco %>" method="POST">
                             <button class="btn btn-outline-danger btn-block"
                                     type="submit">
                                 Eliminar
                             </button>
                         </form>
                         <a class="quitar-link"
-                           href="/cancion/actualizar-cancion/<%= cancion.idCancion %>">
+                           href="/disco/actualizar-cancion/<%= disco.idDisco %>">
                             <button class="btn btn-outline-info btn-block">
                                 Actualizar
                             </button>
