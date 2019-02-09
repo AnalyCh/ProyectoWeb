@@ -29,7 +29,7 @@ import { RolModule } from './rol/rol.module';
           {
               type: 'mysql',
               host: 'localhost',
-              port: 32775 ,
+              port: 32769 ,
               database: 'web',
               username: 'root',
               password: 'root',

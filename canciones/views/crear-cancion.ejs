@@ -11,23 +11,23 @@
             <p><%= estaCreando ? 'Cree':'Actualice' %> una cancion</p>
 
             <!-- emmet -->
-            <form action="/cancion/<%= estaCreando ? 'crear' : 'actualizar' %>-cancion/<%= estaCreando ? '' : noticia.id %>"
+            <form action="/cancion/<%= estaCreando ? 'crear' : 'actualizar' %>-cancion/<%= estaCreando ? '' : cancion.idCancion %>"
                   method="POST">
 
                 <div>
-                    <label for="nombre">Nombre</label>
-                    <input id="nombre"
-                           name="nombre"
+                    <label for="nombreCancion">Nombre</label>
+                    <input id="nombreCancion"
+                           name="nombreCancion"
                            type="text"
-                           value="<%= estaCreando ? '' : cancion.nombre %>"
+                           value="<%= estaCreando ? '' : cancion.nombreCancion %>"
                     >
                 </div>
                 <div>
-                    <label for="anio">Año</label>
-                    <input id="anio"
-                           name="anio"
+                    <label for="anioCancion">Año</label>
+                    <input id="anioCancion"
+                           name="anioCancion"
                            type="text"
-                           value="<%= estaCreando? '': cancion.anio%>"
+                           value="<%= estaCreando? '': cancion.anioCancion%>"
                     >
                 </div>
 

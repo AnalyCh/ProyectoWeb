@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Query, Res} from "@nestjs/common";
+import {Body, Controller, Get, Param, Post, Query, Res, Session} from "@nestjs/common";
 import {CancionService} from "./cancion.service";
 import {CancionEntity} from "./cancion.entity";
 import {FindManyOptions, Like} from "typeorm";
@@ -18,18 +18,21 @@ export class CancionController {
         @Query('nombre') nombre: string
     ){
         let mensaje =  undefined;
-
+        let clase = undefined;
         if(accion && nombre){
             switch(accion){
                 case 'borrar':
                     mensaje = `Registro ${nombre} eliminado`;
+                    clase = 'alert alert-danger';
                     break;
                 case 'actualizar':
                     mensaje = `Registro ${nombre} actualizado.`;
+                    clase = 'alert alert-info';
                     break;
 
                 case 'crear':
                     mensaje = `Registro ${nombre} creado.`;
+                    clase = 'alert alert-succes';
                     break;
             }
         }
@@ -39,10 +42,10 @@ export class CancionController {
             const consulta: FindManyOptions<CancionEntity> = {
                 where:[
                     {
-                        nombre: Like(`%${busqueda}`)
+                        nombreCancion: Like(`%${busqueda}`)
                     },
                     {
-                        anio: Like(`%${busqueda}%`)
+                        anioCancion: Like(`%${busqueda}%`)
                     }
                 ]
             };
@@ -57,7 +60,8 @@ export class CancionController {
                 usuario: 'Analy',
                 arreglo: canciones,
                 booleano: false,
-                mensaje: mensaje
+                mensaje: mensaje,
+                clase:clase
             }
         );
 
@@ -74,7 +78,7 @@ export class CancionController {
         const parametrosConsulta = `?accion=borrar&titulo=${
             cancion.nombreCancion
             }`;
-        response.redirect('cancion/inicio'+ parametrosConsulta)
+        response.redirect('/cancion/inicio'+ parametrosConsulta)
     }
 
     @Get('crear-cancion')
@@ -105,7 +109,7 @@ export class CancionController {
     ){
         const objetoValidacionArtista = new CreateCancionDto();
             objetoValidacionArtista.nombreCancion= cancion.nombreCancion;
-            objetoValidacionArtista.anioCancion = cancion.anioCancion;
+            objetoValidacionArtista.anioCancion = +cancion.anioCancion;
             
 
             const errores: ValidationError[] = await validate(objetoValidacionArtista);
@@ -128,48 +132,58 @@ export class CancionController {
                     listaError.toString()
                     }`;
 
-                response.redirect('/cancion/crear-cancion'+parametrosConsulta)
+                response.redirect('/cancion/inicio'+parametrosConsulta)
 
 
             }else{
                 const respuesta = this._cancionService.crear(cancion);
-        const parametrosConsulta = `?accion=crear&titulo=${cancion.nombreCancion}`;
+        const parametrosConsulta = `?accion=crear&nombre=${cancion.nombreCancion}`;
 
-        response.redirect('cancion/inicio'+ parametrosConsulta)
+        response.redirect('/cancion/inicio'+ parametrosConsulta)
             }
         
     }
 
 
-    @Get('actualizar-cancion')
-    actualizarcancionRuta(
+    @Get('actualizar-cancion/:idCancion')
+    async actualizarcancionRuta(
         @Res() response,
         @Query('error') error,
+        @Param('idCancion') idCancion:string,
+        @Session() sesion
     ){
+        if(!sesion.usuario){
+            response.redirect('/login')
+        }
         let mensaje = undefined;
-            let clase = undefined;
+        let clase = undefined;
             if(error ){
                 mensaje = `Error en el compo ${error}`;
                 clase = 'alert alert-danger';
             }
+        const cancionEncontrada = await this._cancionService
+            .buscarPorId(+idCancion);
+
         response.render(
-            'actualizar-cancion',
+            'crear-cancion',
             {
                 mensaje: mensaje,
-                clase: clase
+                clase: clase,
+                cancion: cancionEncontrada
             }
             
         )
     }
 
-    @Post('actualizar-cancion')
+    @Post('actualizar-cancion/:idCancion')
     async actualizrcancionFuncion(
         @Res() response,
-        @Body() cancion:CreateCancionDto
+        @Body() cancion:CreateCancionDto,
+        @Param('idCancion') idCancion:string
     ){
         const objetoValidacionArtista = new CreateCancionDto();
             objetoValidacionArtista.nombreCancion= cancion.nombreCancion;
-            objetoValidacionArtista.anioCancion = cancion.anioCancion;
+            objetoValidacionArtista.anioCancion = +cancion.anioCancion;
             
 
             const errores: ValidationError[] = await validate(objetoValidacionArtista);
@@ -192,14 +206,14 @@ export class CancionController {
                     listaError.toString()
                     }`;
 
-                response.redirect('/cancion/actualizar-cancion'+parametrosConsulta)
+                response.redirect('/cancion/inicio'+parametrosConsulta)
 
 
             }else{
                 const respuesta = this._cancionService.actualizar(cancion);
-        const parametrosConsulta = `?accion=actualizar&titulo=${cancion.nombreCancion}`;
+        const parametrosConsulta = `?accion=actualizar&nombre=${cancion.nombreCancion}`;
 
-        response.redirect('cancion/inicio'+ parametrosConsulta)
+        response.redirect('/cancion/inicio'+ parametrosConsulta)
             }
         
     }

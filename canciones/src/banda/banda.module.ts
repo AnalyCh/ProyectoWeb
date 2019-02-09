@@ -3,20 +3,26 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { BandaEntity } from "./banda.entity";
 import { BandaController } from "./banda.controller";
 import { BandaService } from "./banda.service";
+import {ArtistaEntity} from "../artista/artista.entity";
+import {ArtistaController} from "../artista/artista. controller";
+import {ArtistaService} from "../artista/artista.service";
 
 @Module({
     imports:[
         TypeOrmModule.forFeature(
             [
-                BandaEntity
+                BandaEntity,
+                ArtistaEntity
             ]
     )
     ],
     controllers:[
-        BandaController
+        BandaController,
+        ArtistaController
     ],
     providers:[
-        BandaService
+        BandaService,
+        ArtistaService
     ],
     exports:[
         BandaService
