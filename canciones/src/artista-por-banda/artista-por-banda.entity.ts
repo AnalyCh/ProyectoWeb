@@ -9,13 +9,13 @@ export class ArtistaPorBandaEntity{
 
     @ManyToOne(
         type => ArtistaEntity,
-        artista => artista.autores
+        artista => artista.autores,{eager: true}
     )
-    idArtista: ArtistaEntity;
+    idArtista: ArtistaEntity | number;
 
     @ManyToOne(
         type => BandaEntity,
-        banda => banda.autores
+        banda => banda.autores,{eager: true}
     )
-    idBanda: BandaEntity;
+    idBanda: BandaEntity | number;
 }

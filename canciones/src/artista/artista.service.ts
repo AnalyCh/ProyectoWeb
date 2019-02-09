@@ -16,7 +16,7 @@ export class ArtistaService{
         return this._artistaRepository.find(parametrosBusqueda)
     }
 
-    crear(artista: CreateBandaDto): Promise<ArtistaEntity>{
+    crear(artista: ArtistaEntity): Promise<ArtistaEntity>{
         // @ts-ignore
         const artistaEntity: ArtistaEntity = this._artistaRepository.create(artista);
         return this._artistaRepository.save(artistaEntity)
@@ -39,4 +39,8 @@ export class ArtistaService{
     buscarPorIdSession(idSession: number):Promise<ArtistaEntity>{
         return this._artistaRepository.findOne({where: {idUsuario: +idSession}})
     }
+
+    buscarPorIDS(idArtistas: number[]):Promise<ArtistaEntity[]>{
+        return this._artistaRepository.findByIds(idArtistas);
+}
 }

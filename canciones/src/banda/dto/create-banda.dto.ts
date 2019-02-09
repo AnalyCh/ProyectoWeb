@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsDate } from "class-validator";
+import { IsNotEmpty, IsString, IsDate, IsDateString } from "class-validator";
 
 export class CreateBandaDto{
 
@@ -11,6 +11,6 @@ export class CreateBandaDto{
     nacionalidadBanda:string;
 
     @IsNotEmpty({message: 'Campo fecha de Agrupacion es requerido'})
-    @IsDate()
-    fechaAgrupacionBanda: Date;
+    @IsDateString()
+    fechaAgrupacionBanda: string;
 }

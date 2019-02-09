@@ -10,7 +10,7 @@ export class AutorEntity{
 
     @Column({
         name: 'banda',
-        type: 'boolean'
+        type: Boolean
     })
     banda: boolean;
 

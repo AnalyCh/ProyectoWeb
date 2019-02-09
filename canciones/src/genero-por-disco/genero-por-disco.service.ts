@@ -3,6 +3,7 @@ import {FindManyOptions, Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 import {GeneroPorDiscoEntity} from "./genero-por-disco.entity";
 import {CreateGeneroPorDiscoDto} from "./dto/create-genero-por-disco.dto";
+import { GeneroPorDisco } from "./genero-por-disco.controller";
 
 @Injectable()
 export class GeneroPorDiscoService{
@@ -38,4 +39,21 @@ export class GeneroPorDiscoService{
     buscarPorIdSession(idSession: number):Promise<GeneroPorDiscoEntity>{
         return this._generoPorDiscoRepository.findOne({where: {idUsuario: +idSession}})
     }
+
+    buscarSiExiste(idDisco: number, idGenero:number): Promise<GeneroPorDiscoEntity>{
+        return this._generoPorDiscoRepository.findOne({where:{idDisco: idDisco, idGenero: idGenero}})
+}
+
+crearUnDiscoIntermedio(idDisco, idGenero){
+    let DiscoGenero: GeneroPorDisco = {idDisco: idDisco, idGenero: idGenero};
+    const DiscoEntity: GeneroPorDiscoEntity = this._generoPorDiscoRepository.create(DiscoGenero);
+    return this._generoPorDiscoRepository.save(DiscoEntity)
+}
+
+buscarPorIDS(idDiscos: number[]):Promise<GeneroPorDiscoEntity[]>{
+    return this._generoPorDiscoRepository.findByIds(idDiscos);
+}
+
+
+
 }

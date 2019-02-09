@@ -4,6 +4,7 @@ import {CancionEntity} from "./cancion.entity";
 import {FindManyOptions, Like} from "typeorm";
 import {Cancion} from "../app.controller";
 import { CreateCancionDto } from "./dto/create-cancion.dto";
+import { ValidationError, validate } from "class-validator";
 
 @Controller('cancion')
 export class CancionController {
@@ -78,20 +79,129 @@ export class CancionController {
 
     @Get('crear-cancion')
     crearcancionRuta(
-        @Res() response
+        @Res() response,
+        @Query('error') error
     ){
-        response.render('crear-cancion')
+        let mensaje = undefined;
+            let clase = undefined;
+            if(error ){
+                mensaje = `Error en el compo ${error}`;
+                clase = 'alert alert-danger';
+            }
+        response.render(
+            'crear-cancion',
+            {
+                mensaje: mensaje,
+                clase: clase
+            }
+            
+        )
     }
 
     @Post('crear-cancion')
-    crearcancionFuncion(
+    async crearcancionFuncion(
         @Res() response,
         @Body() cancion:CreateCancionDto
     ){
-        const respuesta = this._cancionService.crear(cancion);
+        const objetoValidacionArtista = new CreateCancionDto();
+            objetoValidacionArtista.nombreCancion= cancion.nombreCancion;
+            objetoValidacionArtista.anioCancion = cancion.anioCancion;
+            
+
+            const errores: ValidationError[] = await validate(objetoValidacionArtista);
+            const  hayErrores = errores.length >0;
+            console.log("numero de errores en crear artista: "+errores.length);
+            const mensajeError = errores[0];
+
+            const listaError = [];
+            console.log(errores)
+            errores.forEach(
+                (error) => {
+                    listaError.push(error.property)
+                }
+            );
+
+            if(hayErrores){
+                //throw new BadRequestException({mensaje: 'Error de validación en crear', error: mensajeError})
+
+                const parametrosConsulta = `?error=${
+                    listaError.toString()
+                    }`;
+
+                response.redirect('/cancion/crear-cancion'+parametrosConsulta)
+
+
+            }else{
+                const respuesta = this._cancionService.crear(cancion);
         const parametrosConsulta = `?accion=crear&titulo=${cancion.nombreCancion}`;
 
         response.redirect('cancion/inicio'+ parametrosConsulta)
+            }
+        
+    }
+
+
+    @Get('actualizar-cancion')
+    actualizarcancionRuta(
+        @Res() response,
+        @Query('error') error,
+    ){
+        let mensaje = undefined;
+            let clase = undefined;
+            if(error ){
+                mensaje = `Error en el compo ${error}`;
+                clase = 'alert alert-danger';
+            }
+        response.render(
+            'actualizar-cancion',
+            {
+                mensaje: mensaje,
+                clase: clase
+            }
+            
+        )
+    }
+
+    @Post('actualizar-cancion')
+    async actualizrcancionFuncion(
+        @Res() response,
+        @Body() cancion:CreateCancionDto
+    ){
+        const objetoValidacionArtista = new CreateCancionDto();
+            objetoValidacionArtista.nombreCancion= cancion.nombreCancion;
+            objetoValidacionArtista.anioCancion = cancion.anioCancion;
+            
+
+            const errores: ValidationError[] = await validate(objetoValidacionArtista);
+            const  hayErrores = errores.length >0;
+            console.log("numero de errores en crear artista: "+errores.length);
+            const mensajeError = errores[0];
+
+            const listaError = [];
+            console.log(errores)
+            errores.forEach(
+                (error) => {
+                    listaError.push(error.property)
+                }
+            );
+
+            if(hayErrores){
+                //throw new BadRequestException({mensaje: 'Error de validación en crear', error: mensajeError})
+
+                const parametrosConsulta = `?error=${
+                    listaError.toString()
+                    }`;
+
+                response.redirect('/cancion/actualizar-cancion'+parametrosConsulta)
+
+
+            }else{
+                const respuesta = this._cancionService.actualizar(cancion);
+        const parametrosConsulta = `?accion=actualizar&titulo=${cancion.nombreCancion}`;
+
+        response.redirect('cancion/inicio'+ parametrosConsulta)
+            }
+        
     }
 
 
