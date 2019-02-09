@@ -14,7 +14,6 @@ import {ArtistaEntity} from "./artista/artista.entity";
 import {ArtistaPorBandaEntity} from "./artista-por-banda/artista-por-banda.entity";
 import {BandaEntity} from "./banda/banda.entity";
 import {RolEntity} from "./rol/rol.entity";
-import {RolPorUsuarioEntity} from "./rol-por-usuario/rol-por-usuario.entity";
 import { ArtistaModule } from './artista/artista.module';
 import { ArtistaPorBandaModule } from './artista-por-banda/artista-por-banda.module';
 import { AutorModule } from './autor/autor.module';
@@ -23,7 +22,6 @@ import { DiscoModule } from './disco/disco.module';
 import { GeneroModule } from './genero/genero.module';
 import { GeneroPorDiscoModule } from './genero-por-disco/genero-por-disco.module';
 import { RolModule } from './rol/rol.module';
-import { RolPorUsuarioModule } from './rol-por-usuario/rol-por-usuario.module';
 
 @Module({
   imports: [
@@ -31,12 +29,12 @@ import { RolPorUsuarioModule } from './rol-por-usuario/rol-por-usuario.module';
           {
               type: 'mysql',
               host: 'localhost',
-              port: 32773 ,
+              port: 32775 ,
               database: 'web',
               username: 'root',
               password: 'root',
               synchronize: true,
-              dropSchema: true,
+              dropSchema: false,
               entities: [
                   UsuarioEntity,
                   GeneroEntity,
@@ -47,9 +45,8 @@ import { RolPorUsuarioModule } from './rol-por-usuario/rol-por-usuario.module';
                   ArtistaEntity,
                   ArtistaPorBandaEntity,
                   BandaEntity,
-                  RolEntity,
-                  RolPorUsuarioEntity
-              ]
+                  RolEntity
+                  ]
           }
       ),
       UsuarioModule,
@@ -62,7 +59,6 @@ import { RolPorUsuarioModule } from './rol-por-usuario/rol-por-usuario.module';
       GeneroModule,
       GeneroPorDiscoModule,
       RolModule,
-      RolPorUsuarioModule,
       UsuarioModule
   ],
   controllers: [AppController],
